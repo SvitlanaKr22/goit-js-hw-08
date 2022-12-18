@@ -16,6 +16,9 @@ import throttle from 'lodash.throttle';
 const iframe = document.querySelector('iframe');
 const myPlayer = new Player(iframe);
 
+myPlayer.on('timeupdate', throttle(onPlayerTimeUpdate, 1000));
+window.addEventListener('load', onWindowLoad);
+
 function onPlayerTimeUpdate(data) {
   localStorage.setItem(
     'videoplayer-current-time',
@@ -28,6 +31,3 @@ function onWindowLoad() {
     JSON.parse(localStorage.getItem('videoplayer-current-time')) || '';
   if (timeUp) myPlayer.setCurrentTime(timeUp);
 }
-
-myPlayer.on('timeupdate', throttle(onPlayerTimeUpdate, 1000));
-window.addEventListener('load', onWindowLoad);
